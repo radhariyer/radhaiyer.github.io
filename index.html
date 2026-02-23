@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Your Name</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --clay:    #b5715a;
+      --sand:    #e8dcc8;
+      --bark:    #3d2e22;
+      --moss:    #6b7c5c;
+      --cream:   #f5f0e8;
+      --warm:    #c9a882;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--cream);
+      color: var(--bark);
+      font-family: 'Jost', sans-serif;
+      font-weight: 300;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Texture overlay */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Decorative blobs */
+    .blob-tl {
+      position: fixed;
+      top: -120px; left: -120px;
+      width: 420px; height: 420px;
+      background: radial-gradient(circle, var(--warm) 0%, transparent 70%);
+      opacity: 0.35;
+      z-index: 0;
+    }
+    .blob-br {
+      position: fixed;
+      bottom: -100px; right: -100px;
+      width: 380px; height: 380px;
+      background: radial-gradient(circle, var(--moss) 0%, transparent 70%);
+      opacity: 0.2;
+      z-index: 0;
+    }
+
+    main {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 60px 24px;
+      gap: 0;
+    }
+
+    /* Thin horizontal rule accent */
+    .rule {
+      width: 1px;
+      height: 60px;
+      background: linear-gradient(to bottom, transparent, var(--warm), transparent);
+      margin-bottom: 40px;
+      animation: fadeIn 1.2s ease both;
+    }
+
+    /* Profile image */
+    .profile-wrap {
+      position: relative;
+      width: 160px;
+      height: 160px;
+      margin-bottom: 32px;
+      animation: riseUp 1s ease 0.2s both;
+    }
+
+    .profile-wrap::before {
+      content: '';
+      position: absolute;
+      inset: -6px;
+      border-radius: 50%;
+      background: conic-gradient(var(--clay), var(--warm), var(--moss), var(--clay));
+      animation: spin 12s linear infinite;
+    }
+
+    .profile-wrap::after {
+      content: '';
+      position: absolute;
+      inset: -3px;
+      border-radius: 50%;
+      background: var(--cream);
+    }
+
+    .profile-wrap img {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* Placeholder if no image */
+    .profile-placeholder {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+      background: linear-gradient(135deg, var(--sand), var(--warm));
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 52px;
+      color: var(--bark);
+      letter-spacing: -1px;
+    }
+
+    /* Name */
+    h1 {
+      font-family: 'Cormorant Garamond', serif;
+      font-weight: 300;
+      font-size: clamp(2.4rem, 6vw, 3.8rem);
+      letter-spacing: 0.04em;
+      color: var(--bark);
+      text-align: center;
+      line-height: 1.1;
+      margin-bottom: 12px;
+      animation: riseUp 1s ease 0.4s both;
+    }
+
+    /* Credentials */
+    .credentials {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 8px 20px;
+      margin-bottom: 48px;
+      animation: riseUp 1s ease 0.6s both;
+    }
+
+    .credential {
+      font-size: 0.72rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--clay);
+      position: relative;
+    }
+
+    .credential:not(:last-child)::after {
+      content: '·';
+      position: absolute;
+      right: -12px;
+      color: var(--warm);
+    }
+
+    /* Divider */
+    .divider {
+      width: 80px;
+      height: 1px;
+      background: linear-gradient(to right, transparent, var(--clay), transparent);
+      margin-bottom: 48px;
+      animation: fadeIn 1s ease 0.8s both;
+    }
+
+    /* Nav links */
+    nav {
+      display: flex;
+      gap: 40px;
+      animation: riseUp 1s ease 1s both;
+    }
+
+    nav a {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 1.3rem;
+      font-style: italic;
+      color: var(--bark);
+      text-decoration: none;
+      position: relative;
+      padding-bottom: 4px;
+      transition: color 0.3s;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: 0; left: 0;
+      width: 0; height: 1px;
+      background: var(--clay);
+      transition: width 0.4s ease;
+    }
+
+    nav a:hover {
+      color: var(--clay);
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    /* Animations */
+    @keyframes riseUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to   { opacity: 1; }
+    }
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Footer */
+    footer {
+      position: fixed;
+      bottom: 20px;
+      font-size: 0.65rem;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: var(--warm);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+  <div class="blob-tl"></div>
+  <div class="blob-br"></div>
+
+  <main>
+    <div class="rule"></div>
+
+    <div class="profile-wrap">
+      <!-- Replace the div below with: <img src="your-photo.jpg" alt="Your Name"> -->
+      <div class="profile-placeholder">YN</div>
+    </div>
+
+    <h1>Radha Iyer</h1>
+
+    <div class="credentials">
+      <span class="credential">Architectural Designer</span>
+      <span class="credential">UPenn</span>
+      <span class="credential">LEED AP BD +C</span>
+    </div>
+
+    <div class="divider"></div>
+
+    <nav>
+      <a href="portfolio/">Portfolio</a>
+      <a href="henna/">Henna</a>
+    </nav>
+  </main>
+
+  <footer>Est. 2026</footer>
+</body>
+</html>
