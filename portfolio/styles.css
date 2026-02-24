@@ -59,3 +59,28 @@ canvas {
   position: relative;
   z-index: 1;
 }
+
+.home-btn {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 2;
+  font-family: 'Lato', sans-serif;
+  font-weight: 900;
+  font-size: 0.85rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  text-decoration: none;
+  padding: 10px 22px;
+  border-radius: 4px;
+  color: var(--earth);
+  border: 2px solid rgba(107, 79, 42, 0.35);
+  background: rgba(245, 239, 227, 0.85);
+  backdrop-filter: blur(6px);
+  transition: all 0.2s ease;
+}
+.home-btn:hover {
+  border-color: var(--earth);
+  background: rgba(107, 79, 42, 0.07);
+  transform: translateY(-2px);
+}
