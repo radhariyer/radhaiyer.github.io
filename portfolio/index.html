@@ -10,21 +10,24 @@
   <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    const PDF_URL = '2.26_radha_dahlin_portfoliov2.pdf'; // <-- change this to your PDF filename
+    const PDF_URL = '2.26_radha_dahlin_portfoliov2.pdf';
 
     pdfjsLib.getDocument(PDF_URL).promise.then(pdf => {
       for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
         pdf.getPage(pageNum).then(page => {
           const dpr = window.devicePixelRatio || 1;
-          const desiredWidth = document.body.clientWidth - 40; // 40px for padding
+          const availableWidth  = document.body.clientWidth - 40;
+          const availableHeight = window.innerHeight - 40;
           const baseViewport = page.getViewport({ scale: 1 });
-          const scale = (desiredWidth / baseViewport.width) * dpr;
+          const widthScale  = (availableWidth  / baseViewport.width)  * dpr;
+          const heightScale = (availableHeight / baseViewport.height) * dpr;
+          const scale = Math.min(widthScale, heightScale);
           const viewport = page.getViewport({ scale });
-        
+
           const canvas = document.createElement('canvas');
           canvas.width = viewport.width;
           canvas.height = viewport.height;
-          canvas.style.width = desiredWidth + 'px';
+          canvas.style.width  = (viewport.width  / dpr) + 'px';
           canvas.style.height = (viewport.height / dpr) + 'px';
         
           document.body.appendChild(canvas);
