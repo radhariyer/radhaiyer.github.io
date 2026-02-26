@@ -15,7 +15,7 @@
   <script>
     pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
 
-    const PDF_URL = '2.26_radha_dahlin_portfoliov2.pdf';
+    const PDF_URL = 'portfolio.pdf';
 
     pdfjsLib.getDocument(PDF_URL).promise.then(pdf => {
       for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
