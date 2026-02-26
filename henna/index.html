@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Henna | Radha Iyer</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Lato:wght@900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css"/>
+</head>
+<body>
+  <a href="../" class="home-btn">← Home</a>
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+  <script>
+    pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+
+    const PDF_URL = 'portfolio.pdf';
+
+    pdfjsLib.getDocument(PDF_URL).promise.then(pdf => {
+      for (let pageNum = 1; pageNum <= pdf.numPages; pageNum++) {
+        pdf.getPage(pageNum).then(page => {
+          const dpr = window.devicePixelRatio || 1;
+          const availableWidth  = document.body.clientWidth - 40;
+          const availableHeight = window.innerHeight - 40;
+          const baseViewport = page.getViewport({ scale: 1 });
+          const widthScale  = (availableWidth  / baseViewport.width)  * dpr;
+          const heightScale = (availableHeight / baseViewport.height) * dpr;
+          const scale = Math.min(widthScale, heightScale);
+          const viewport = page.getViewport({ scale });
+
+          const canvas = document.createElement('canvas');
+          canvas.width = viewport.width;
+          canvas.height = viewport.height;
+          canvas.style.width  = (viewport.width  / dpr) + 'px';
+          canvas.style.height = (viewport.height / dpr) + 'px';
+
+          document.body.appendChild(canvas);
+          page.render({ canvasContext: canvas.getContext('2d'), viewport });
+        });
+      }
+    }).catch(() => {
+      const msg = document.createElement('p');
+      msg.className = 'pdf-unavailable';
+      msg.textContent = 'Content will be added shortly.';
+      document.body.appendChild(msg);
+    });
+  </script>
+</body>
+</html>
